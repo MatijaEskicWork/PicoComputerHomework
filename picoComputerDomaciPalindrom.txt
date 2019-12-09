@@ -1,0 +1,65 @@
+                  n = 1
+                  adra = 3
+                  a = 200
+                  b = 100
+                  c = 150
+                  adrn = 2
+                  broj = 4
+                  kraj = 5
+                  adrp = 6
+                  pomocna = 7
+                  petlja = 8
+                  end = 25
+                  pp_glavni = 26
+                  neok = 44
+                  pp_ubacivanje = 54
+                  pp_provera = 70
+                  izadji = 77
+                  dodaj = 80
+    8: 7101       petlja: IN n
+    9: 6018 0019  BGT 0, n, end
+   11: 5108 0019  BEQ n, 0, end
+   13: 0408 0096  MOV broj, #c
+   15: 0C08 0000  MOV (broj), 0
+   17: 0308 00C8  MOV adra, #a
+   19: 0630       MOV adrp, adra
+   20: 7B81       IN (adra), n
+   21: D000 001A  JSR pp_glavni
+   23: 5668 0008  BEQ adrp, adrp, petlja
+   25: F000       end: STOP 
+   26: 04B0       pp_glavni: MOV broj, (adra)
+   27: 0208 0064  MOV adrn, #b
+   29: 0520       MOV kraj, adrn
+   30: D000 0036  JSR pp_ubacivanje
+   32: D000 0046  JSR pp_provera
+   34: 5708 002C  BEQ pomocna, 0, neok
+   36: 0408 0096  MOV broj, #c
+   38: 9CC0 0001  ADD (broj), (broj), 1
+   40: 156C       ADD kraj, adrp, (broj)
+   41: A550 0001  SUB kraj, kraj, 1
+   43: 0DB0       MOV (kraj), (adra)
+   44: 9330 0001  neok: ADD adra, adra, 1
+   46: 2536       SUB kraj, adra, adrp
+   47: 6158 001A  BGT n, kraj, pp_glavni
+   49: 0508 0096  MOV kraj, #c
+   51: 04D0       MOV broj, (kraj)
+   52: 8E84       OUT (adrp), broj
+   53: E000       RTS 
+   54: 0708 0000  pp_ubacivanje: MOV pomocna, 0
+   56: C740 000A  DIV pomocna, broj, 10
+   58: B770 000A  MUL pomocna, pomocna, 10
+   60: 2D47       SUB (kraj), broj, pomocna
+   61: C440 000A  DIV broj, broj, 10
+   63: 9550 0001  ADD kraj, kraj, 1
+   65: 6408 0036  BGT broj, 0, pp_ubacivanje
+   67: A550 0001  SUB kraj, kraj, 1
+   69: E000       RTS 
+   70: 6258 004D  pp_provera: BGT adrn, kraj, izadji
+   72: 5DA8 0050  BEQ (kraj), (adrn), dodaj
+   74: 0708 0000  MOV pomocna, 0
+   76: E000       RTS 
+   77: 0708 0001  izadji: MOV pomocna, 1
+   79: E000       RTS 
+   80: 9220 0001  dodaj: ADD adrn, adrn, 1
+   82: A550 0001  SUB kraj, kraj, 1
+   84: 5558 0046  BEQ kraj, kraj, pp_provera
